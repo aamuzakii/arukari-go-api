@@ -6,7 +6,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
+
+type Product struct {
+	gorm.Model
+	Code  string
+	Price uint
+}
 
 func main() {
 	fmt.Println("mama")
