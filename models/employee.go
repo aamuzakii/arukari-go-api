@@ -12,6 +12,8 @@ type Employee struct {
 	gorm.Model
 	Name         string
 	Email        string
+	Password     string
+	KTPNumber    uint
 	DepartmentID uint
 	Department   Department `gorm:"foreignKey:DepartmentID"`
 	Position     string

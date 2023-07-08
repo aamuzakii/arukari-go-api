@@ -51,8 +51,11 @@ func main() {
 		// email := registerReq.Email
 		pw := registerReq.Password
 
+		hashedPW := util.HashPassword(pw)
+
 		user := models.Employee{
 			Name:         "Abdullah Al Muzaki",
+			Password:     hashedPW,
 			Email:        "email",
 			DepartmentID: 1,
 			Position:     "CTO",
