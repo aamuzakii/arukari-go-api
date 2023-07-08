@@ -12,7 +12,7 @@ func main() {
 	fmt.Println("mama")
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
-		util.PrintToken()
+		util.GenerateToken()
 		c.JSON(http.StatusOK, gin.H{"message": "pong"})
 	})
 	r.Run()
