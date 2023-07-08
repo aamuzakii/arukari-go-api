@@ -19,11 +19,13 @@ type Employee struct {
 }
 
 type Employment struct {
+	gorm.Model
 	CompanyID  uint
 	Company    Company `gorm:"foreignKey:CompanyID"`
 	EmployeeID uint
 }
 
 type Company struct {
+	gorm.Model
 	Name string
 }

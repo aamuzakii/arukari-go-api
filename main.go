@@ -2,6 +2,7 @@ package main
 
 import (
 	"arukari/initializers"
+	"arukari/models"
 	"arukari/util"
 	"fmt"
 	"net/http"
@@ -47,10 +48,19 @@ func main() {
 
 		c.ShouldBindJSON(&registerReq)
 
-		email := registerReq.Email
+		// email := registerReq.Email
 		pw := registerReq.Password
 
-		c.JSON(http.StatusOK, gin.H{"email": email, "refreshToken": pw})
+		user := models.Employee{
+			Name:         "Abdullah Al Muzaki",
+			Email:        "email",
+			DepartmentID: 1,
+			Position:     "CTO",
+		}
+
+		id := initializers.DB.Create(&user)
+
+		c.JSON(http.StatusOK, gin.H{"email": id, "refreshToken": pw})
 	})
 	r.Run()
 }
