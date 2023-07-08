@@ -14,6 +14,11 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+type RegisterRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 func main() {
 	initializers.ConnectToDB()
 	fmt.Println("mama")
@@ -34,6 +39,18 @@ func main() {
 		// cek dengan database
 		// kalau benar generate token
 		c.JSON(http.StatusOK, gin.H{"accessToken": email, "refreshToken": pw})
+	})
+
+	r.POST("/register", func(c *gin.Context) {
+
+		var registerReq RegisterRequest
+
+		c.ShouldBindJSON(&registerReq)
+
+		email := registerReq.Email
+		pw := registerReq.Password
+
+		c.JSON(http.StatusOK, gin.H{"email": email, "refreshToken": pw})
 	})
 	r.Run()
 }
