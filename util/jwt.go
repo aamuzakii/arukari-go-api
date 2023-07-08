@@ -28,7 +28,7 @@ func GenerateToken() {
 
 	res, err2 := VerifyToken(tokenStr, key)
 
-	klaim := res.Claims
+	klaim := res.Claims.(jwt.MapClaims)
 	fmt.Println(klaim["email"], err2)
 
 }
