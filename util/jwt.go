@@ -1,14 +1,19 @@
 package util
 
 import (
+	"fmt"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var (
-	key []byte
-	t   *jwt.Token
-	s   string
-)
+func main() {
+	var (
+		key []byte
+		t   *jwt.Token
+		s   string
+	)
 
-key = []byte("23")
-fmt.Println(key)
+	key = []byte("23")
+	fmt.Println(key)
+
+}
