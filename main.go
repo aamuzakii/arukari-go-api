@@ -5,6 +5,7 @@ import (
 	"arukari/models"
 	"arukari/util"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,9 +38,17 @@ func main() {
 
 		email := loginReq.Email
 		pw := loginReq.Password
+
+		var employee models.Employee
+
+		err := initializers.DB.Where("email = ?", email).First(&employee)
+
+		if err != nil {
+			log.Fatal(err)
+		}
 		// cek dengan database
 		// kalau benar generate token
-		c.JSON(http.StatusOK, gin.H{"accessToken": email, "refreshToken": pw})
+		c.JSON(http.StatusOK, gin.H{"accessToken": employee, "refreshToken": pw})
 	})
 
 	r.POST("/register", func(c *gin.Context) {
@@ -48,7 +57,7 @@ func main() {
 
 		c.ShouldBindJSON(&registerReq)
 
-		// email := registerReq.Email
+		email := registerReq.Email
 		pw := registerReq.Password
 
 		hashedPW := util.HashPassword(pw)
@@ -56,7 +65,7 @@ func main() {
 		user := models.Employee{
 			Name:         "Abdullah Al Muzaki",
 			Password:     hashedPW,
-			Email:        "email",
+			Email:        email,
 			DepartmentID: 1,
 			Position:     "CTO",
 		}
