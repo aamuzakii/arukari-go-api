@@ -17,5 +17,9 @@ func main() {
 		util.GenerateToken()
 		c.JSON(http.StatusOK, gin.H{"message": "pong"})
 	})
+
+	r.POST("/login", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"accessToken": "ey123", "refreshToken": "ey123"})
+	})
 	r.Run()
 }
