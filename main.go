@@ -9,6 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 func main() {
 	initializers.ConnectToDB()
 	fmt.Println("mama")
@@ -19,7 +24,16 @@ func main() {
 	})
 
 	r.POST("/login", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"accessToken": "ey123", "refreshToken": "ey123"})
+		// ambil email & pw dari body
+		var loginReq LoginRequest
+
+		c.ShouldBindJSON(&loginReq)
+
+		email := loginReq.Email
+		pw := loginReq.Password
+		// cek dengan database
+		// kalau benar generate token
+		c.JSON(http.StatusOK, gin.H{"accessToken": email, "refreshToken": pw})
 	})
 	r.Run()
 }
