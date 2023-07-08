@@ -6,14 +6,23 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func main() {
+func PrintToken() {
 	var (
-		key []byte
-		t   *jwt.Token
-		s   string
+		t *jwt.Token
+		// s   string
 	)
 
-	key = []byte("23")
+	key := []byte{'H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!'}
+
 	fmt.Println(key)
 
+	t = jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
+		"email": "mama.com",
+	})
+
+	tokenStr, err := t.SignedString(key)
+
+	fmt.Println(">>>>>>>>>>>>")
+
+	fmt.Println(tokenStr, err)
 }
