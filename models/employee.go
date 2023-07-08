@@ -9,7 +9,8 @@ type Department struct {
 
 type Employee struct {
 	gorm.Model
-	Name       string
-	Department Department `gorm:"foreignKey:DepartmentID"`
-	Position   string
+	Name         string
+	DepartmentID uint
+	Department   Department `gorm:"foreignKey:DepartmentID"`
+	Position     string
 }
