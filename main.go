@@ -9,10 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type Product struct {
+type Employee struct {
 	gorm.Model
-	Code  string
-	Price uint
+	Name       string
+	Department string
+	Position   string
 }
 
 func main() {
