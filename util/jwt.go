@@ -35,15 +35,19 @@ func GenerateToken() {
 
 func VerifyToken(tokenStr string, key []byte) (*jwt.Token, error) {
 	// Define the token verification options
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(tokenStr, validationCallback)
+
+	// Define the callback function
+	func validationCallback(token *jwt.Token) (interface{}, error) {
 		// Make sure the signing method is as expected
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-
+	
 		// Return the key for validation
 		return key, nil
-	})
+	}
+	
 
 	return token, err
 }
