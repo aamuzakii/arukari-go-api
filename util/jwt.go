@@ -16,7 +16,7 @@ func PrintToken() {
 
 	fmt.Println(key)
 
-	t = jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
+	t = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": "mama.com",
 	})
 
