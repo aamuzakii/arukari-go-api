@@ -1,22 +1,16 @@
 package main
 
 import (
+	"arukari/initializers"
 	"arukari/util"
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-type Employee struct {
-	gorm.Model
-	Name       string
-	Department string
-	Position   string
-}
-
 func main() {
+	initializers.ConnectToDB()
 	fmt.Println("mama")
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
