@@ -42,11 +42,19 @@ func main() {
 
 		res := initializers.DB.Where("email = ?", email).First(&employee)
 
-		fmt.Printf("%+v <<< res baru\n", res) // logging with better info basic Println(res)
+		fmt.Printf("%+v <<< res baru+\n", res) // logging with better info with +
 
+		fmt.Println(res.Error, ">>> is error exist?")
+
+		if res.Error != nil {
+			errorMsg := res.Error.Error()
+			fmt.Println(errorMsg)
+			c.JSON(http.StatusNotFound, gin.H{"msg": errorMsg})
+			return
+		}
 		// cek dengan database
 		// kalau benar generate token
-		c.JSON(http.StatusOK, gin.H{"accessToken": employee.ID, "refreshToken": pw})
+		c.JSON(http.StatusOK, gin.H{"accessToken": employee, "refreshToken": pw})
 	})
 
 	r.POST("/register", func(c *gin.Context) {
