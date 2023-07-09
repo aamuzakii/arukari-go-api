@@ -102,5 +102,32 @@ func main() {
 
 		c.JSON(http.StatusOK, gin.H{"email": email})
 	})
+
+	r.POST("/clock-in", func(c *gin.Context) {
+		accessToken := c.GetHeader("Authorization")
+		key := []byte("secret")
+
+		fmt.Println(accessToken, "<<< acc")
+
+		if accessToken == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"msg": "Authorization token not provided",
+			})
+			return
+		}
+
+		token, err := util.VerifyToken(accessToken, key)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			c.JSON(http.StatusForbidden, gin.H{
+				"msg": err.Error(),
+			})
+			return
+		}
+
+		fmt.Println(token, err)
+	})
+
 	r.Run()
 }
