@@ -132,7 +132,53 @@ func main() {
 			return
 		}
 
-		err2 := util.CreateAttendance(employee.ID)
+		err2 := util.CreateAttendance(employee.ID, "clock-in")
+
+		if err2 != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"msg": err2.Error(),
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "success add attendance log",
+		})
+	})
+
+	r.POST("/clock-out", func(c *gin.Context) {
+		accessToken := c.GetHeader("Authorization")
+		key := []byte("secret")
+
+		if accessToken == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"msg": "Authorization token not provided",
+			})
+			return
+		}
+
+		token, err := util.VerifyToken(accessToken, key)
+
+		if err != nil {
+			log.Println(err.Error())
+			c.JSON(http.StatusForbidden, gin.H{
+				"msg": err.Error(),
+			})
+			return
+		}
+
+		payload := token.Claims.(jwt.MapClaims)
+
+		email := payload["email"].(string)
+
+		employee, err := util.GetEmployee(email)
+
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"msg": err.Error()})
+			return
+		}
+
+		err2 := util.CreateAttendance(employee.ID, "clock-out")
 
 		if err2 != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{

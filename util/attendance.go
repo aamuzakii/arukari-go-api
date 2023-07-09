@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func CreateAttendance(id uint) error {
+func CreateAttendance(id uint, logType string) error {
 
 	now := time.Now()
 
@@ -22,7 +22,7 @@ func CreateAttendance(id uint) error {
 	log := models.AttendanceLog{
 		EmployeeID: id,
 		Date:       now,
-		LogType:    "in",
+		LogType:    logType,
 		LogTime:    now,
 		Remarks:    "",
 	}
