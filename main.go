@@ -5,7 +5,6 @@ import (
 	"arukari/models"
 	"arukari/util"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -95,7 +94,10 @@ func main() {
 		tx := initializers.DB.Create(&user)
 
 		if tx.Error != nil {
-			log.Fatal(tx.Error.Error())
+			errMsg := tx.Error.Error()
+			fmt.Println(errMsg)
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": errMsg})
+			return
 		}
 
 		c.JSON(http.StatusOK, gin.H{"email": email})

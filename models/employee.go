@@ -11,7 +11,7 @@ type Department struct {
 type Employee struct {
 	gorm.Model
 	Name         string
-	Email        string
+	Email        string `gorm:"unique"`
 	Password     string
 	KTPNumber    uint
 	DepartmentID uint
