@@ -6,7 +6,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func GenerateToken() {
+func GenerateToken(payload map[string]interface{}) string {
 	var (
 		t *jwt.Token
 		// s   string
@@ -14,10 +14,10 @@ func GenerateToken() {
 
 	key := []byte("secret")
 
-	fmt.Println(key)
+	fmt.Println(payload, "< ini ya")
 
 	t = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email": "mama.com",
+		"email": payload["email"],
 	})
 
 	tokenStr, err := t.SignedString(key)
@@ -30,6 +30,8 @@ func GenerateToken() {
 
 	klaim := res.Claims.(jwt.MapClaims)
 	fmt.Println(klaim["email"], err2)
+
+	return tokenStr
 
 }
 
