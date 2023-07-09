@@ -19,5 +19,7 @@ func main() {
 		&models.Employment{},
 		&models.Attendance{},
 		&models.AttendanceLog{},
+		&models.LeaveRequest{},
+		&models.LeaveType{},
 	)
 }
