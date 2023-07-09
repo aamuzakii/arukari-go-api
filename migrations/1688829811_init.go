@@ -3,7 +3,7 @@ package main // should use package main instead of package migrations
 import (
 	"arukari/initializers"
 	"arukari/models"
-	"fmt"
+	"log"
 )
 
 func init() {
@@ -11,6 +11,6 @@ func init() {
 }
 
 func main() {
-	fmt.Println("start migrating")
+	log.Println("start migrating")
 	initializers.DB.AutoMigrate(&models.Employee{}, &models.Company{}, &models.Department{}, &models.Employment{})
 }

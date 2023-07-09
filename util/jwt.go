@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -14,22 +15,17 @@ func GenerateToken(payload map[string]interface{}) string {
 
 	key := []byte("secret")
 
-	fmt.Println(payload, "< ini ya")
-
 	t = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": payload["email"],
 	})
 
 	tokenStr, err := t.SignedString(key)
 
-	fmt.Println(">>>>>>>>>>>>")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
-	fmt.Println(tokenStr, err)
-
-	res, err2 := VerifyToken(tokenStr, key)
-
-	klaim := res.Claims.(jwt.MapClaims)
-	fmt.Println(klaim["email"], err2)
+	// klaim := res.Claims.(jwt.MapClaims)
 
 	return tokenStr
 

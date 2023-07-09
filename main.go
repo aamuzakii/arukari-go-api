@@ -5,6 +5,7 @@ import (
 	"arukari/models"
 	"arukari/util"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,6 @@ type RegisterRequest struct {
 
 func main() {
 	initializers.ConnectToDB()
-	fmt.Println("mama")
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "pong"})
@@ -43,11 +43,9 @@ func main() {
 
 		fmt.Printf("%+v <<< res baru+\n", res) // logging with better info with +
 
-		fmt.Println(res.Error, ">>> is error exist?")
-
 		if res.Error != nil {
 			errorMsg := res.Error.Error()
-			fmt.Println(errorMsg)
+			log.Println(errorMsg)
 			c.JSON(http.StatusNotFound, gin.H{"msg": errorMsg})
 			return
 		}
@@ -60,8 +58,6 @@ func main() {
 			c.JSON(http.StatusForbidden, gin.H{"msg": "wrong pwd"})
 			return
 		}
-
-		fmt.Println(email, "<< email")
 
 		jwtPayload := map[string]interface{}{
 			"email": email,
@@ -95,7 +91,7 @@ func main() {
 
 		if tx.Error != nil {
 			errMsg := tx.Error.Error()
-			fmt.Println(errMsg)
+			log.Println(errMsg)
 			c.JSON(http.StatusInternalServerError, gin.H{"msg": errMsg})
 			return
 		}
@@ -107,8 +103,6 @@ func main() {
 		accessToken := c.GetHeader("Authorization")
 		key := []byte("secret")
 
-		fmt.Println(accessToken, "<<< acc")
-
 		if accessToken == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"msg": "Authorization token not provided",
@@ -119,7 +113,7 @@ func main() {
 		token, err := util.VerifyToken(accessToken, key)
 
 		if err != nil {
-			fmt.Println(err.Error())
+			log.Println(err.Error())
 			c.JSON(http.StatusForbidden, gin.H{
 				"msg": err.Error(),
 			})
