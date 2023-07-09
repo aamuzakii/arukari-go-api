@@ -54,6 +54,14 @@ func main() {
 		}
 		// cek dengan database
 		// kalau benar generate token
+
+		err := util.ComparePassword(employee.Password, pw)
+
+		if err != nil {
+			c.JSON(http.StatusForbidden, gin.H{"msg": "wrong pwd"})
+			return
+		}
+
 		c.JSON(http.StatusOK, gin.H{"accessToken": employee, "refreshToken": pw})
 	})
 
