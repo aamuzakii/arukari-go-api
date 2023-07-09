@@ -31,7 +31,8 @@ func GenerateToken(payload map[string]interface{}) string {
 
 }
 
-func VerifyToken(tokenStr string, key []byte) (*jwt.Token, error) {
+func VerifyToken(tokenStr string, params ...[]byte) (*jwt.Token, error) {
+	key := []byte("secret")
 	// Define the token verification options
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		// Make sure the signing method is as expected

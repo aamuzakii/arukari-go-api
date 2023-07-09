@@ -102,7 +102,6 @@ func main() {
 
 	r.POST("/clock-in", func(c *gin.Context) {
 		accessToken := c.GetHeader("Authorization")
-		key := []byte("secret")
 
 		if accessToken == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -111,7 +110,7 @@ func main() {
 			return
 		}
 
-		token, err := util.VerifyToken(accessToken, key)
+		token, err := util.VerifyToken(accessToken)
 
 		if err != nil {
 			log.Println(err.Error())
@@ -148,7 +147,6 @@ func main() {
 
 	r.POST("/clock-out", func(c *gin.Context) {
 		accessToken := c.GetHeader("Authorization")
-		key := []byte("secret")
 
 		if accessToken == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -157,7 +155,7 @@ func main() {
 			return
 		}
 
-		token, err := util.VerifyToken(accessToken, key)
+		token, err := util.VerifyToken(accessToken)
 
 		if err != nil {
 			log.Println(err.Error())
