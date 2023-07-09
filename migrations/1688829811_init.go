@@ -12,5 +12,12 @@ func init() {
 
 func main() {
 	log.Println("start migrating")
-	initializers.DB.AutoMigrate(&models.Employee{}, &models.Company{}, &models.Department{}, &models.Employment{})
+	initializers.DB.AutoMigrate(
+		&models.Employee{},
+		&models.Company{},
+		&models.Department{},
+		&models.Employment{},
+		&models.Attendance{},
+		&models.AttendanceLog{},
+	)
 }

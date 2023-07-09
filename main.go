@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type LoginRequest struct {
@@ -120,7 +121,29 @@ func main() {
 			return
 		}
 
-		fmt.Println(token, err)
+		payload := token.Claims.(jwt.MapClaims)
+
+		email := payload["email"].(string)
+
+		employee, err := util.GetEmployee(email)
+
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"msg": err.Error()})
+			return
+		}
+
+		err2 := util.CreateAttendance(employee.ID)
+
+		if err2 != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"msg": err2.Error(),
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "success add attendance log",
+		})
 	})
 
 	r.Run()
