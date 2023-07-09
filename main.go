@@ -5,7 +5,6 @@ import (
 	"arukari/models"
 	"arukari/util"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -41,14 +40,13 @@ func main() {
 
 		var employee models.Employee
 
-		err := initializers.DB.Where("email = ?", email).First(&employee)
+		res := initializers.DB.Where("email = ?", email).First(&employee)
 
-		if err != nil {
-			log.Fatal(err)
-		}
+		fmt.Printf("%+v <<< res baru\n", res) // logging with better info basic Println(res)
+
 		// cek dengan database
 		// kalau benar generate token
-		c.JSON(http.StatusOK, gin.H{"accessToken": employee, "refreshToken": pw})
+		c.JSON(http.StatusOK, gin.H{"accessToken": employee.ID, "refreshToken": pw})
 	})
 
 	r.POST("/register", func(c *gin.Context) {
